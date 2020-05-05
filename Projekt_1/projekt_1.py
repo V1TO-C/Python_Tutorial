@@ -31,12 +31,11 @@ in modern oceans. Other fish such as paddlefish,
 garpike and stingray are also present.''']
 
 ODDELOVAC = "-"*39
-x = 0
-while x < len(TEXTS):
-    TEXTS[x] = TEXTS[x].replace("\n", "")
-    TEXTS[x] = TEXTS[x].strip(".")
-    TEXTS[x] = TEXTS[x].split(" ")
-    x += 1
+IMPROVED_TEXTS = []
+
+for ARTICLE in TEXTS:
+    ARTICLE = ARTICLE.strip(","".")
+    IMPROVED_TEXTS.append(ARTICLE.split())
 
 LOGIN_DATA = {
  "bob": "123",
@@ -72,64 +71,41 @@ USER_CHOICE = int(USER_CHOICE_STR)-1
 
 print(ODDELOVAC)
 
-TEST1 = len(TEXTS[USER_CHOICE])
-print(f"There are {TEST1} words in the selected text.")
+WORD_COUNT = len(IMPROVED_TEXTS[USER_CHOICE])
+print(f"There are {WORD_COUNT} words in the selected text.")
 
+TITLECASE_COUNT = 0
+UPPER_COUNT = 0
+LOWER_COUNT = 0
+NUMERIC_COUNT = 0
+NUMBERS_LIST = list()
 
-TEST2 = 0
-x = 0
-while x < len(TEXTS[USER_CHOICE]):
-    if TEXTS[USER_CHOICE][x].istitle():
-        x += 1
-        TEST2 += 1
-    else:
-        x += 1
-print(f"There are {str(TEST2)} titlecase words.")
+for WORD in IMPROVED_TEXTS[USER_CHOICE]:
+    if WORD.istitle():
+        TITLECASE_COUNT += 1
+    elif WORD.isupper():
+        UPPER_COUNT += 1
+    elif WORD.islower():
+        LOWER_COUNT += 1
+    elif WORD.isnumeric():
+        NUMERIC_COUNT += 1
+        NUMBERS_LIST.append(int(WORD))
 
-TEST3 = 0
-x = 0
-while x < len(TEXTS[USER_CHOICE]):
-    if TEXTS[USER_CHOICE][x].isupper():
-        x += 1
-        TEST3 += 1
-    else:
-        x += 1
-print(f"There are {TEST3} uppercase words.")
-
-TEST4 = 0
-x = 0
-while x < len(TEXTS[USER_CHOICE]):
-    if TEXTS[USER_CHOICE][x].islower():
-        x += 1
-        TEST4 += 1
-    else:
-        x += 1
-print(f"There are {TEST4} lowercase words.")
-
-TEST5 = 0
-x = 0
-while x < len(TEXTS[USER_CHOICE]):
-    if TEXTS[USER_CHOICE][x].isnumeric():
-        x += 1
-        TEST5 += 1
-    else:
-        x += 1
-print(f"There are {TEST5} numeric strings.")
+print(f"There are {TITLECASE_COUNT} titlecase words.")
+print(f"There are {UPPER_COUNT} uppercase words.")
+print(f"There are {LOWER_COUNT} lowercase words.")
+print(f"There are {NUMERIC_COUNT} numeric strings.")
 print(ODDELOVAC)
 
 WORD_LEN = 1
-WORD_MAX_LEN = len(max(TEXTS[USER_CHOICE], key=len))
+WORD_MAX_LEN = len(max(IMPROVED_TEXTS[USER_CHOICE], key=len))
 while WORD_LEN < WORD_MAX_LEN:
-    WORD_INDEX = 0
     WORDS_COUNT = 0
-    while WORD_INDEX < len(TEXTS[USER_CHOICE]):
-        if len(TEXTS[USER_CHOICE][WORD_INDEX]) == WORD_LEN:
+    for WORD in IMPROVED_TEXTS[USER_CHOICE]:
+        if len(WORD) == WORD_LEN:
             WORDS_COUNT += 1
-            WORD_INDEX += 1
-        else:
-            WORD_INDEX += 1
-    STARS = "*"*WORDS_COUNT
 
+    STARS = "*"*WORDS_COUNT
     if WORDS_COUNT == 0:
         WORD_LEN += 1
     else:
@@ -137,14 +113,60 @@ while WORD_LEN < WORD_MAX_LEN:
         WORD_LEN += 1
 print(ODDELOVAC)
 
-NUMBERS_LIST = list()
-x = 0
-while x < len(TEXTS[USER_CHOICE]):
-    if TEXTS[USER_CHOICE][x].isnumeric():
-        NUMBERS_LIST.append(float(TEXTS[USER_CHOICE][x]))
-        x += 1
-    else:
-        x += 1
-
 SUM = sum(NUMBERS_LIST)
 print(f"IF we summed all the numbers in this text we would get: {SUM}")
+
+
+# TITLECASE_COUNT = 0
+# for WORD in IMPROVED_TEXTS[USER_CHOICE]:
+#     if WORD.isupper():
+#         TITLECASE_COUNT += 1
+# print(f"There are {TITLECASE_COUNT} titlecase words.")
+#
+# UPPER_COUNT = 0
+# for WORD in IMPROVED_TEXTS[USER_CHOICE]:
+#     if WORD.isupper():
+#         UPPER_COUNT += 1
+# print(f"There are {UPPER_COUNT} uppercase words.")
+#
+# LOWER_COUNT = 0
+# for WORD in IMPROVED_TEXTS[USER_CHOICE]:
+#     if WORD.islower():
+#         LOWER_COUNT += 1
+# print(f"There are {LOWER_COUNT} lowercase words.")
+#
+# NUMERIC_COUNT = 0
+# for WORD in IMPROVED_TEXTS[USER_CHOICE]:
+#     if WORD.isnumeric():
+#         NUMERIC_COUNT += 1
+# print(f"There are {NUMERIC_COUNT} numeric strings.")
+# print(ODDELOVAC)
+#
+# WORD_LEN = 1
+# WORD_MAX_LEN = len(max(IMPROVED_TEXTS[USER_CHOICE], key=len))
+# while WORD_LEN < WORD_MAX_LEN:
+#     WORD_INDEX = 0
+#     WORDS_COUNT = 0
+#     while WORD_INDEX < len(IMPROVED_TEXTS[USER_CHOICE]):
+#         if len(IMPROVED_TEXTS[USER_CHOICE][WORD_INDEX]) == WORD_LEN:
+#             WORDS_COUNT += 1
+#             WORD_INDEX += 1
+#         else:
+#             WORD_INDEX += 1
+#     STARS = "*"*WORDS_COUNT
+#
+#     if WORDS_COUNT == 0:
+#         WORD_LEN += 1
+#     else:
+#         print(f"{WORD_LEN}{STARS}{WORDS_COUNT}")
+#         WORD_LEN += 1
+# print(ODDELOVAC)
+#
+# NUMBERS_LIST = list()
+# x = 0
+# for WORD in TEXTS[USER_CHOICE]:
+#     if WORD.isnumeric():
+#         NUMBERS_LIST.append(float(WORD))
+#
+# SUM = sum(NUMBERS_LIST)
+# print(f"IF we summed all the numbers in this text we would get: {SUM}")
