@@ -34,8 +34,10 @@ ODDELOVAC = "-"*39
 IMPROVED_TEXTS = []
 
 for ARTICLE in TEXTS:
-    ARTICLE = ARTICLE.strip(","".")
+    ARTICLE = ARTICLE.replace(",", "")
+    ARTICLE = ARTICLE.replace(".", "")
     IMPROVED_TEXTS.append(ARTICLE.split())
+
 
 LOGIN_DATA = {
  "bob": "123",
@@ -78,7 +80,7 @@ TITLECASE_COUNT = 0
 UPPER_COUNT = 0
 LOWER_COUNT = 0
 NUMERIC_COUNT = 0
-NUMBERS_LIST = list()
+SUM = 0
 
 for WORD in IMPROVED_TEXTS[USER_CHOICE]:
     if WORD.istitle():
@@ -89,7 +91,7 @@ for WORD in IMPROVED_TEXTS[USER_CHOICE]:
         LOWER_COUNT += 1
     elif WORD.isnumeric():
         NUMERIC_COUNT += 1
-        NUMBERS_LIST.append(int(WORD))
+        SUM += int(WORD)
 
 print(f"There are {TITLECASE_COUNT} titlecase words.")
 print(f"There are {UPPER_COUNT} uppercase words.")
@@ -98,8 +100,7 @@ print(f"There are {NUMERIC_COUNT} numeric strings.")
 print(ODDELOVAC)
 
 WORD_LEN = 1
-WORD_MAX_LEN = len(max(IMPROVED_TEXTS[USER_CHOICE], key=len))
-while WORD_LEN < WORD_MAX_LEN:
+while WORD_LEN < len(max(IMPROVED_TEXTS[USER_CHOICE], key=len)):
     WORDS_COUNT = 0
     for WORD in IMPROVED_TEXTS[USER_CHOICE]:
         if len(WORD) == WORD_LEN:
@@ -113,7 +114,6 @@ while WORD_LEN < WORD_MAX_LEN:
         WORD_LEN += 1
 print(ODDELOVAC)
 
-SUM = sum(NUMBERS_LIST)
 print(f"IF we summed all the numbers in this text we would get: {SUM}")
 
 
