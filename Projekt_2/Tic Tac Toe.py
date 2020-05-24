@@ -24,18 +24,14 @@ def gameplan(nums):
     print("-------------")
     print(f"| {nums[6]} | {nums[7]} | {nums[8]} |")
     print("¯¯¯¯¯¯¯¯¯¯¯¯¯")
+    print()
 
 
 def player_input(player1):
-    if player1 is True:
-        player_turn = "O"
-    else:
-        player_turn = "X"
     while True:
-        print("\n", oddelovac, "\n", oddelovac)
+        print(f"{oddelovac}\n{oddelovac}")
         try:
-            pl_input = int(input(f"Player {player_turn} | Please enter your position number: ")) - 1
-            print()
+            pl_input = int(input(f"Player {player1} | Please enter your position number: ")) - 1
             if -1 < pl_input < 9:
                 return pl_input
             else:
