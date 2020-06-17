@@ -62,9 +62,7 @@ def get_village_data(v_url: str, v_index: int) -> dict:
     village_search = get_v_r.find_all("h3")[2:]
     if not village_search:                                      # condition for Praha
         village_search = get_v_r.find_all("h3")[1:]
-        village_name = village_search[0].text.replace("Obec: ", "")
-    else:
-        village_name = village_search[0].text.replace("Obec: ", "")
+    village_name = village_search[0].text.replace("Obec: ", "")
     voters = get_v_r.find(headers="sa2").text
     envelopes_given = get_v_r.find(headers="sa3").text
     envelopes_valid = get_v_r.find(headers="sa6").text
