@@ -1,15 +1,22 @@
 """Project 3: Elections Scraper"""
 """Choose territorial level from this URL: https://volby.cz/pls/ps2017nss/ps3?xjazyk=CZ """
-
 import os
 import csv
 import requests
 import bs4
+import typing
 
 
 def main():
-    url, csv_name = input_url_name()
-    village_urls, v_ids = (get_villages_url(url))
+    while True:
+        url, csv_name = input_url_name()
+        village_urls, v_ids = (get_villages_url(url))
+        if village_urls:
+            break
+        print("Probably bad URL adress, please check it and insert again.")
+        print("=" * 50)
+        print()
+
     for v_url in village_urls:
         data = get_village_data(v_url, v_ids[village_urls.index(v_url)])
         make_csv(csv_name, data)
@@ -17,31 +24,34 @@ def main():
     print(f"All done, {csv_name} has been created!!!")
 
 
-def input_url_name():
-    try:
-        url = input("Please insert URL adress: ")
-        test_url = requests.get(url)
-        test_url.raise_for_status()
-        while True:
-            csv_name = input("Please enter name of your csv file: ") + ".csv"
-            forbidden_char = ["\\", "/", ":", "*", "?", '"', "<", ">", "|"]
-            status = True
-            for char in forbidden_char:
-                if char in csv_name:
-                    print()
-                    print('File name can not contain these symbols: \ / : * ? " < > |.')
-                    status = False
-                    break
-            if status is True:
-                break
-        print("=" * 50)
-        print(f"Please wait, your file {csv_name} is being prepared.")
-        return url, csv_name
-    except requests.exceptions.RequestException as e:
-        raise SystemExit(e)
+def input_url_name() -> [str, str]:
+    while True:
+        try:
+            url = input("Please insert URL adress: ")
+            test_url = requests.get(url)
+            test_url.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            print(e)
+            print("Try it again.")
+            print("=" * 50)
+            print()
+        else:
+            break
+
+    while True:
+        csv_name = input("Please enter name of your csv file: ") + ".csv"
+        forbidden_char = {"\\", "/", ":", "*", "?", '"', "<", ">", "|"}
+        if set(csv_name) & forbidden_char:
+            print()
+            print('File name can not contain these symbols: \ / : * ? " < > |.')
+        else:
+            break
+    print("=" * 50)
+    print(f"Please wait, your file {csv_name} is being prepared.")
+    return url, csv_name
 
 
-def get_villages_url(url: str) -> tuple:
+def get_villages_url(url: str) -> typing.Tuple[typing.List[str], typing.List[str]]:
     url_main = url[:url.rfind("/")+1]   # https://volby.cz/pls/ps2017nss/
     content_r = bs4.BeautifulSoup(requests.get(url).text, "html.parser")
     tables_r = content_r.find_all("table")
@@ -101,8 +111,8 @@ def make_csv(name: str, data: dict) -> None:
                     data
                 )
     except IOError as e:
+        print(e)
         print("Ups something is wrong, program closed!")
-        raise exit(e)
 
 
 if __name__ == '__main__':
