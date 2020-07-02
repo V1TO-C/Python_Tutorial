@@ -1,3 +1,2 @@
 # Python_Tutorial
-Pro odevzdání projektů Python academy
-Test synchronizace.
+Odevzdané projekty v Python academy.
